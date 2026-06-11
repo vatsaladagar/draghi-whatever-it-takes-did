@@ -23,10 +23,10 @@ This repository contains the replication code and cleaned data for an event stud
 ## Repository Structure
 
 ```
-├── panel\\\\\\\_stata.csv          # Cleaned estimation dataset (main replication file)
-├── debt\\\\\\\_gdp\\\\\\\_final.csv       # Country-level debt-to-GDP ratios (2011 and 2012 vintages)
+├── panel_stata.csv          # Cleaned estimation dataset (main replication file)
+├── debt_gdp_final.csv       # Country-level debt-to-GDP ratios (2011 and 2012 vintages)
 ├── VIXCLS.csv               # VIX index - daily (FRED series VIXCLS)
-├── draghi\\\\\\\_analysis.do       # Full Stata replication code (all 10 tests)
+├── draghi_analysis.do       # Full Stata replication code (all 10 tests)
 └── README.md                # This file
 ```
 
@@ -68,18 +68,18 @@ This repository contains the replication code and cleaned data for an event stud
 |-|-|
 |`date`|Trading date (YYYY-MM-DD)|
 |`country`|Country name|
-|`country\\\\\\\_id`|Numeric country identifier|
+|`country_id`|Numeric country identifier|
 |`yield`|10-year sovereign bond yield (%)|
-|`bund\\\\\\\_yield`|German Bund yield (%)|
+|`bund_yield`|German Bund yield (%)|
 |`spread`|Sovereign spread vs Germany (basis points)|
 |`vix`|CBOE Volatility Index (daily)|
-|`debt\\\\\\\_gdp\\\\\\\_2011`|2011 general government debt-to-GDP (%) — Eurostat|
-|`debt\\\\\\\_gdp\\\\\\\_2012`|2012 general government debt-to-GDP (%) — Eurostat|
+|`debt_gdp_2011`|2011 general government debt-to-GDP (%) — Eurostat|
+|`debt_gdp_2012`|2012 general government debt-to-GDP (%) — Eurostat|
 |`post`|Dummy = 1 on or after 26 July 2012|
-|`event\\\\\\\_time`|Trading days relative to speech date (0 = speech date)|
+|`event_time`|Trading days relative to speech date (0 = speech date)|
 |`tday`|Sequential trading day counter within country|
-|`speech\\\\\\\_tday`|Trading day number corresponding to speech date|
-|`date\\\\\\\_id`|Numeric date identifier|
+|`speech_tday`|Trading day number corresponding to speech date|
+|`date_id`|Numeric date identifier|
 
 \---
 
@@ -100,14 +100,14 @@ ssc install esttab
 ## Replication Instructions
 
 1. Clone this repository
-2. Open `draghi\\\\\\\_analysis.do` in Stata
+2. Open `draghi_analysis.do` in Stata
 3. Set your working directory at the top of the do-file:
 
 ```stata
    cd "/path/to/your/cloned/repo"
    ```
 
-4. Run `draghi\\\\\\\_analysis.do` — all 10 tests execute in sequence
+4. Run `draghi_analysis.do` — all 10 tests execute in sequence
 5. Outputs (tables and figures) are saved to your working directory
 
 \---
@@ -148,7 +148,7 @@ ssc install esttab
 
 If you use this code or data, please cite:
 
-> Dagar, V. (2026). \\\\\\\*Did Draghi's 'Whatever It Takes' Speech Compress Sovereign Spreads? Evidence from a Continuous-Treatment Event Study Difference-in-Differences.\\\\\\\* 
+> Dagar, V. (2026). */Did Draghi's 'Whatever It Takes' Speech Compress Sovereign Spreads? Evidence from a Continuous-Treatment Event Study Difference-in-Differences./* 
 
 \---
 
