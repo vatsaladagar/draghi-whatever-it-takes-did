@@ -148,7 +148,7 @@ ssc install esttab
 
 If you use this code or data, please cite:
 
-> Dagar, V. (2026). */Did Draghi's 'Whatever It Takes' Speech Compress Sovereign Spreads? Evidence from a Continuous-Treatment Event Study Difference-in-Differences./* 
+> Dagar, V. (2026). *Did Draghi's 'Whatever It Takes' Speech Compress Sovereign Spreads? Evidence from a Continuous-Treatment Event Study Difference-in-Differences.* 
 
 \---
 
