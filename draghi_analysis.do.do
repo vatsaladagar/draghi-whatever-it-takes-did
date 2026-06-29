@@ -8,7 +8,7 @@ Description: Replication code for continuous-treatment event study DiD
              sovereign bond spreads across 11 eurozone countries.
 Data: panel_stata.csv (included in repository)
 Software: Stata 17+; requires reghdfe, coefplot, esttab packages
-Sample: 11 eurozone countries (AT, BE, FI, FR, IE, IT, MT, NL, PT, SI, ES)
+Sample: 10 eurozone countries (AT, BE, FI, FR, IE, IT, NL, PT, SI, ES)
 */
  
 * IMPORT DATA
@@ -22,6 +22,9 @@ cd "/path/to/your/data"
 
 * Importing cleaned panel
 import delimited "panel_stata.csv", delimiter(",") clear varnames(1)
+
+* Drop Malta — thin secondary market liquidity
+drop if country == "Malta"
 
 * Date convert
 gen date2 = date(date, "YMD")
@@ -137,7 +140,7 @@ reghdfe spread debt_x_post vix, absorb(country_id date) vce(robust)
 estimates store did_vix
 
 * Table exporting
-esttab did_baseline did_vix using "table_main_DiD.rtf", keep(debt_x_post vix) label se star(* 0.10 ** 0.05 *** 0.01) b(3) se(3) title("Table 2: Parsimonious Two-Period DiD") mtitles("Baseline" "VIX Control") scalars("N Observations" "r2 R-squared") addnotes("Robust SEs. Country and date FEs absorbed. Outcome: 10-year spread vs Germany (bps). Window: [-10, +30] trading days. 11 eurozone countries.") replace
+esttab did_baseline did_vix using "table_main_DiD.rtf", keep(debt_x_post vix) label se star(* 0.10 ** 0.05 *** 0.01) b(3) se(3) title("Table 2: Parsimonious Two-Period DiD") mtitles("Baseline" "VIX Control") scalars("N Observations" "r2 R-squared") addnotes("Robust SEs. Country and date FEs absorbed. Outcome: 10-year spread vs Germany (bps). Window: [-10, +30] trading days. 10 eurozone countries.") replace
 
 * Economic magnitude
 scalar beta = _b[debt_x_post]
@@ -278,3 +281,46 @@ di cond(p_quad < 0.05, "RESULT: Significant nonlinearity", "RESULT: Linear speci
 esttab did_baseline quadratic using "table_quadratic.rtf", keep(debt_x_post debt_sq_x_post) label se star(* 0.10 ** 0.05 *** 0.01) title("Robustness: Quadratic Debt/GDP Specification") mtitles("Linear Baseline" "Quadratic") addnotes("Robust SEs. Country and date FEs absorbed.") replace
 
 di "Test 10 complete. table_quadratic.rtf saved."
+
+* TEST 11: PLACEBO TEST - ALTERNATIVE EVENT DATES
+* Tests whether the speech-date result is an artifact of the design
+* Uses country-clustered SEs (methodological exception — see paper Section 4.4)
+
+use "panel_wide.dta", clear
+
+local placebo_dates "10feb2012 9mar2012 10apr2012 10may2012 11jun2012"
+
+foreach d of local placebo_dates {
+    preserve
+    
+    gen placebo_tday = tday if date == td(`d')
+    by country_id: egen placebo_tday2 = max(placebo_tday)
+    gen placebo_event_time = tday - placebo_tday2
+    
+    gen placebo_post = (date >= td(`d'))
+    gen placebo_treat_post = debt_gdp_2011 * placebo_post
+    
+    keep if placebo_event_time >= -10 & placebo_event_time <= 30
+    
+    reghdfe spread placebo_treat_post, absorb(country_id date) vce(cluster country_id)
+    
+    di "TEST 11: Placebo date `d'"
+    di "Beta: " _b[placebo_treat_post]
+    di "SE (clustered): " _se[placebo_treat_post]
+    di "p-value: " 2*ttail(e(df_r), abs(_b[placebo_treat_post]/_se[placebo_treat_post]))
+    
+    restore
+    drop placebo_tday placebo_tday2 placebo_event_time placebo_post placebo_treat_post
+}
+
+* Real speech date with clustered SEs for comparison
+preserve
+keep if event_time >= -10 & event_time <= 30
+reghdfe spread debt_x_post, absorb(country_id date) vce(cluster country_id)
+di "TEST 11: Actual speech date (26 July 2012) — clustered SEs"
+di "Beta: " _b[debt_x_post]
+di "SE (clustered): " _se[debt_x_post]
+di "p-value: " 2*ttail(e(df_r), abs(_b[debt_x_post]/_se[debt_x_post]))
+restore
+
+di "Test 11 complete."
