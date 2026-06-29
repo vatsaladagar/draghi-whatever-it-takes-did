@@ -10,7 +10,7 @@
 
 ## Overview
 
-This repository contains the replication code and cleaned data for an event study difference-in-differences analysis of Mario Draghi's 'Whatever It Takes' speech (26 July 2012) and its causal effect on sovereign bond spreads across eleven eurozone member states.
+This repository contains the replication code and cleaned data for an event study difference-in-differences analysis of Mario Draghi's 'Whatever It Takes' speech (26 July 2012) and its causal effect on sovereign bond spreads across ten eurozone member states.
 
 **Research question:** Did Draghi's speech causally compress sovereign spreads, and was the magnitude of compression systematically related to each country's fiscal vulnerability?
 
@@ -55,8 +55,7 @@ This repository contains the replication code and cleaned data for an event stud
 * Germany - spread benchmark (spread identically zero)
 * Greece - under active PSI debt restructuring; spread dynamics reflect default mechanics
 * Cyprus - acute banking crisis with idiosyncratic spread drivers
-* Malta - thin secondary market liquidity in daily bond yield data
-* Slovakia, Estonia, Luxembourg - insufficient daily bond market data (thin secondary market liquidity)
+* Slovakia, Malta, Estonia, Luxembourg - insufficient daily bond market data (thin secondary market liquidity)
 
 **Estimation window:** \[−10, +30] trading days around 26 July 2012  
 **Full dataset:** April–September 2012 (used for window sensitivity analysis)
@@ -130,7 +129,7 @@ ssc install esttab
 |Test 11|Placebo test - five alternative event dates|Logged in console|
 
 \---
-**Note on Test 11:** Placebo tests using five alternative event dates (Feb10, Mar 9, Apr 10, May 10, Jun 11, 2012) confirm the speech-date result is not an artifact of the research design. This test uses country-clustered standard errors as a methadological exception to the heteroskedasticity-robust default used throughout the rest of the paper - see Section 4.4 of the paper for full results and rationale.
+**Note on Test 11:** Placebo tests using five alternative event dates (Feb10, Mar 9, Apr 10, May 10, Jun 11, 2012) confirm the speech-date result is not an artifact of the research design. This test uses country-clustered standard errors as a methodological exception to the heteroskedasticity-robust default used throughout the rest of the paper - see Section 4.4 of the paper for full results and rationale.
 
 \---
 ## Key Results
