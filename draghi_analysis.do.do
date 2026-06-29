@@ -5,7 +5,7 @@ Affiliation: MSc Economics & Policy, King's College London
 Date: June 2026
 Description: Replication code for continuous-treatment event study DiD
              estimating causal effect of Draghi's July 2012 speech on
-             sovereign bond spreads across 11 eurozone countries.
+             sovereign bond spreads across 10 eurozone countries.
 Data: panel_stata.csv (included in repository)
 Software: Stata 17+; requires reghdfe, coefplot, esttab packages
 Sample: 10 eurozone countries (AT, BE, FI, FR, IE, IT, NL, PT, SI, ES)
