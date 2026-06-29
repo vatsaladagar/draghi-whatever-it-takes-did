@@ -36,7 +36,7 @@ This repository contains the replication code and cleaned data for an event stud
 
 |Variable|Source|Series / Table|Notes|
 |-|-|-|-|
-|10-year sovereign bond yields|Investing.com|Daily, Apr–Sep 2012|11 eurozone countries|
+|10-year sovereign bond yields|Investing.com|Daily, Apr–Sep 2012|10 eurozone countries|
 |German Bund yield (benchmark)|Investing.com|Daily, Apr–Sep 2012|Spread denominator|
 |Debt-to-GDP ratio (2011 vintage)|Eurostat|gov\_10dd\_edpt1|Treatment intensity variable|
 |Debt-to-GDP ratio (2012 vintage)|Eurostat|gov\_10dd\_edpt1|Robustness check (Test 8)|
@@ -48,13 +48,14 @@ This repository contains the replication code and cleaned data for an event stud
 
 ## Sample
 
-**Countries (11):** Austria, Belgium, Finland, France, Ireland, Italy, Malta, Netherlands, Portugal, Slovenia, Spain
+**Countries (10):** Austria, Belgium, Finland, France, Ireland, Italy, Netherlands, Portugal, Slovenia, Spain
 
 **Excluded countries and justification:**
 
 * Germany - spread benchmark (spread identically zero)
 * Greece - under active PSI debt restructuring; spread dynamics reflect default mechanics
 * Cyprus - acute banking crisis with idiosyncratic spread drivers
+* Malta - thin secondary market liquidity in daily bond yield data
 * Slovakia, Estonia, Luxembourg - insufficient daily bond market data (thin secondary market liquidity)
 
 **Estimation window:** \[−10, +30] trading days around 26 July 2012  
@@ -126,9 +127,12 @@ ssc install esttab
 |Test 8|Alternative debt/GDP vintage (2012)|table\_vintage.rtf|
 |Test 9|Outlier exclusion (Italy and Slovenia)|table\_outlier.rtf|
 |Test 10|Quadratic debt/GDP specification|table\_quadratic.rtf|
+|Test 11|Placebo test - five alternative event dates|Logged in console|
 
 \---
+**Note on Test 11:** Placebo tests using five alternative event dates (Feb10, Mar 9, Apr 10, May 10, Jun 11, 2012) confirm the speech-date result is not an artifact of the research design. This test uses country-clustered standard errors as a methadological exception to the heteroskedasticity-robust default used throughout the rest of the paper - see Section 4.4 of the paper for full results and rationale.
 
+\---
 ## Key Results
 
 |Specification|β (Debt × Post)|SE|Significance|
@@ -140,7 +144,7 @@ ssc install esttab
 |2012 debt vintage|−0.780|—|\*\*\*|
 |Excl. Italy \& Slovenia|−0.506|—|\*\*\*|
 
-*Outcome: 10-year sovereign spread vs Germany (bps). Country and date FEs absorbed. Robust SEs.*
+*Outcome: 10-year sovereign spread vs Germany (bps). Country and date FEs absorbed. Heteroskedasticity-robust SEs (primary specification throughout, except Test 11 - see paper Section 4.4).*
 
 \---
 
